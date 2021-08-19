@@ -116,4 +116,10 @@ public class SecondFragment extends Fragment  implements BeaconConsumer  {
             }
         });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        beaconManager.unbind(this);
+    }
 }

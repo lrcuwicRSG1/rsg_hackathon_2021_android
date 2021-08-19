@@ -30,7 +30,7 @@ import org.altbeacon.beacon.Region;
 
 import java.util.Collection;
 
-public class MainActivity extends AppCompatActivity implements BeaconConsumer {
+public class MainActivity extends AppCompatActivity  {
 
     protected static final String TAG = "MonitoringActivity";
     private BeaconManager beaconManager;
@@ -48,13 +48,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         checkPermission();
         
-        beaconManager = BeaconManager.getInstanceForApplication(this);
-        // To detect proprietary beacons, you must add a line like below corresponding to your beacon
-        // type.  Do a web search for "setBeaconLayout" to get the proper expression.
-         beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-        Log.e(TAG, "XXX Bind");
-        beaconManager.bind(this);
     }
 
     private void checkPermission() {
@@ -156,70 +149,5 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        beaconManager.unbind(this);
-    }
-    @Override
-    public void onBeaconServiceConnect() {
 
-//        RangeNotifier rangeNotifier = new RangeNotifier() {
-//            @Override
-//            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-//                if (beacons.size() > 0) {
-//                    Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  "+beacons.size());
-//                    Beacon firstBeacon = beacons.iterator().next();
-//                    setStatusInfo(TAG,"The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
-//                }
-//            }
-//
-//        };
-//        try {
-//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-//            beaconManager.addRangeNotifier(rangeNotifier);
-//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-//            beaconManager.addRangeNotifier(rangeNotifier);
-//        } catch (RemoteException e) {   }
-
-//
-//        beaconManager.removeAllMonitorNotifiers();
-//        beaconManager.addMonitorNotifier(new MonitorNotifier() {
-//            @Override
-//            public void didEnterRegion(Region region) {
-//                setStatusInfo(TAG, "XXXI just saw a beacon for the first time!");
-//
-//            }
-//
-//            @Override
-//            public void didExitRegion(Region region) {
-//                setStatusInfo(TAG, "XXXI no longer see a beacon");
-//            }
-//
-//            @Override
-//            public void didDetermineStateForRegion(int state, Region region) {
-//                setStatusInfo(TAG, "XXXI have just switched from seeing/not seeing beacons: " + state);
-//            }
-//        });
-//
-//        try {
-//            beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
-//        } catch (RemoteException e) {
-//            Log.i(TAG, "XXXerror starting monitor", e);
-//            setStatusInfo(TAG, "error starting monitor" + e.getMessage());
-//        }
-    }
-//
-//    private void setStatusInfo(String tag, String message) {
-//        Log.i(TAG, message);
-//        runOnUiThread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                TextView tv = (TextView) findViewById(R.id.beaconTextView);
-//                CharSequence oldMsg = tv.getText();
-//                tv.setText(message + "\n" + oldMsg);
-//            }
-//        });
-//    }
 }

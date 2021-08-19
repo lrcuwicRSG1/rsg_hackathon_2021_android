@@ -110,4 +110,10 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
             }
         });
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        beaconManager.unbind(this);
+    }
+
 }
