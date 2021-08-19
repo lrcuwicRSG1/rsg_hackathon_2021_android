@@ -44,14 +44,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         checkPermission();
         
@@ -171,23 +164,23 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     public void onBeaconServiceConnect() {
 
-        RangeNotifier rangeNotifier = new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() > 0) {
-                    Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  "+beacons.size());
-                    Beacon firstBeacon = beacons.iterator().next();
-                    setStatusInfo(TAG,"The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
-                }
-            }
-
-        };
-        try {
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-            beaconManager.addRangeNotifier(rangeNotifier);
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-            beaconManager.addRangeNotifier(rangeNotifier);
-        } catch (RemoteException e) {   }
+//        RangeNotifier rangeNotifier = new RangeNotifier() {
+//            @Override
+//            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+//                if (beacons.size() > 0) {
+//                    Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  "+beacons.size());
+//                    Beacon firstBeacon = beacons.iterator().next();
+//                    setStatusInfo(TAG,"The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
+//                }
+//            }
+//
+//        };
+//        try {
+//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+//            beaconManager.addRangeNotifier(rangeNotifier);
+//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+//            beaconManager.addRangeNotifier(rangeNotifier);
+//        } catch (RemoteException e) {   }
 
 //
 //        beaconManager.removeAllMonitorNotifiers();
@@ -216,17 +209,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 //            setStatusInfo(TAG, "error starting monitor" + e.getMessage());
 //        }
     }
-
-    private void setStatusInfo(String tag, String message) {
-        Log.i(TAG, message);
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                TextView tv = (TextView) findViewById(R.id.beaconTextView);
-                CharSequence oldMsg = tv.getText();
-                tv.setText(message + "\n" + oldMsg);
-            }
-        });
-    }
+//
+//    private void setStatusInfo(String tag, String message) {
+//        Log.i(TAG, message);
+//        runOnUiThread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                TextView tv = (TextView) findViewById(R.id.beaconTextView);
+//                CharSequence oldMsg = tv.getText();
+//                tv.setText(message + "\n" + oldMsg);
+//            }
+//        });
+//    }
 }
