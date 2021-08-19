@@ -66,7 +66,7 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
                 if (beacons.size() > 0) {
                     Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  " + beacons.size());
                     Beacon firstBeacon = beacons.iterator().next();
-                    setStatusInfo(TAG, "The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
+                    setStatusInfo(TAG, "The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away and has the following data: " + firstBeacon.getDataFields());
                 }
             }
 
