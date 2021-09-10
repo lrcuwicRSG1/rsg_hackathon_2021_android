@@ -24,10 +24,12 @@ import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.BeaconTransmitter;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity  {
@@ -44,10 +46,33 @@ public class MainActivity extends AppCompatActivity  {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTransmission();
+                Snackbar.make(view, "Starting transmission", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         checkPermission();
         
+    }
+
+    private void startTransmission() {
+        Beacon beacon = new Beacon.Builder()
+                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId2("1")
+                .setId3("2")
+                .setManufacturer(0x0118)
+                .setTxPower(-59)
+                .setDataFields(Arrays.asList(new Long[] {3l}))
+                .build();
+        BeaconParser beaconParser = new BeaconParser()
+                 .setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
+        BeaconTransmitter beaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
+        beaconTransmitter.startAdvertising(beacon);
     }
 
     private void checkPermission() {
