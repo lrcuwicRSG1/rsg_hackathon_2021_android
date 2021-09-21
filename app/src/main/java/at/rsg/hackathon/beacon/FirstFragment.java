@@ -24,7 +24,7 @@ import org.altbeacon.beacon.Region;
 
 import java.util.Collection;
 
-public class FirstFragment  extends Fragment implements BeaconConsumer {
+public class FirstFragment  extends Fragment {
     private BeaconManager beaconManager;
 
     protected static final String TAG = "FirstFragment";
@@ -47,7 +47,11 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         Log.e(TAG, "XXX Bind");
-        beaconManager.bind(this);
+        //beaconManager.bind(this);
+
+        addRangeNotifier();
+
+
 
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +61,7 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
             }
         });
     }
-    @Override
-    public void onBeaconServiceConnect() {
+    public void addRangeNotifier() {
 
         RangeNotifier rangeNotifier = new RangeNotifier() {
             @Override
@@ -71,29 +74,10 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
             }
 
         };
-        try {
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-            beaconManager.addRangeNotifier(rangeNotifier);
-//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-//            beaconManager.addRangeNotifier(rangeNotifier);
-        } catch (RemoteException e) {
-        }
+        beaconManager.startRangingBeacons(new Region("myRangingUniqueId", null, null, null));
+        beaconManager.addRangeNotifier(rangeNotifier);
     }
 
-    @Override
-    public Context getApplicationContext() {
-        return getActivity().getApplicationContext();
-    }
-
-    @Override
-    public void unbindService(ServiceConnection connection) {
-        getActivity().unbindService(connection);
-    }
-
-    @Override
-    public boolean bindService(Intent intent, ServiceConnection connection, int mode) {
-        return getActivity().bindService(intent, connection, mode);
-    }
 
     private void setStatusInfo(String tag, String message) {
         Log.i(TAG, message);
@@ -113,7 +97,9 @@ public class FirstFragment  extends Fragment implements BeaconConsumer {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        beaconManager.unbind(this);
     }
 
+    public Context getApplicationContext() {
+        return getActivity().getApplicationContext();
+    }
 }

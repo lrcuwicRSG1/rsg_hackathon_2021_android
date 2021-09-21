@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity  {
 
     private void startTransmission() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId1("97c409f9279a4e5298d2be4528c9238b")
+                //.setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
