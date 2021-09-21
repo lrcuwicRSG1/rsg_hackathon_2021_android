@@ -2,6 +2,7 @@ package at.rsg.hackathon.beacon;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity  {
 
     private void startTransmission() {
         Beacon beacon = new Beacon.Builder()
-                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId1("97c409f9279a4e5298d2be4528c9238b")
+                //.setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
@@ -75,6 +77,11 @@ public class MainActivity extends AppCompatActivity  {
         beaconTransmitter.startAdvertising(beacon);
     }
 
+
+    /*
+     funktioniert anscheinend nur bei SDK Target Version  29
+     zur Migration auf 30 siehe https://proandroiddev.com/the-quick-developers-guide-to-migrate-their-apps-to-android-11-e4ca2b011176
+     */
     private void checkPermission() {
         Log.e(TAG, "Build.VERSION.SDK_INT=" + Build.VERSION.SDK_INT );
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -145,7 +152,60 @@ public class MainActivity extends AppCompatActivity  {
                     });
                     builder.show();
                 }
+            }
 
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_FINE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "fine location permission granted");
+                    Log.e(TAG, "XXXX8.1" );
+
+                } else {
+                    Log.e(TAG, "XXXX8.2" );
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                return;
+            }
+            case PERMISSION_REQUEST_BACKGROUND_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "background location permission granted");
+                    Log.e(TAG, "XXXX8.3" );
+
+                } else {
+                    Log.e(TAG, "XXXX8.4" );
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since background location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                return;
             }
         }
     }
