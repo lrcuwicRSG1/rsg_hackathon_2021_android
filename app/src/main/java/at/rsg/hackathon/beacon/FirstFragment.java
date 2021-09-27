@@ -22,6 +22,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class FirstFragment  extends Fragment {
@@ -66,11 +67,19 @@ public class FirstFragment  extends Fragment {
         RangeNotifier rangeNotifier = new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() > 0) {
-                    Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  " + beacons.size());
-                    Beacon firstBeacon = beacons.iterator().next();
-                    setStatusInfo(TAG, beacons.size() + " beacons found. The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away and has the following data: major=" + firstBeacon.getId2() + ", minor=" + firstBeacon.getId3());
+                Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  " + beacons.size());
+                Beacon[] beaconList = beacons.toArray(new Beacon[beacons.size()]);
+
+                for (int i= 0; i < beacons.size() ;i++) {
+                    Beacon firstBeacon = beaconList[i];
+                    if (firstBeacon.getId1().toString().equals("97c409f9-279a-4e52-98d2-be4528c9238b")) {
+                        setStatusInfo(TAG, "The beacon " + i + "|" + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away and has the following data: major=" + firstBeacon.getId2() + ", minor=" + firstBeacon.getId3());
+                    } else {
+                        //setStatusInfo(TAG, "Found different  beacon " + i + "|" + firstBeacon.getId1().toString() + " is about " + firstBeacon.getDistance() + " meters away and has the following data: major=" + firstBeacon.getId2() + ", minor=" + firstBeacon.getId3());
+                    }
                 }
+
+                setStatusInfo(TAG, beacons.size() + " beacons found. ");
             }
 
         };
